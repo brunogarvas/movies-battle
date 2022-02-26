@@ -27,6 +27,7 @@ public class FilmeDTO {
 	private String urlIMDB;
 	
 	public FilmeDTO(Filme filme) {
+		this.id = filme.getId();
 		this.titulo = filme.getTitulo();
 		this.sinopse = filme.getSinopse();
 		this.diretor = filme.getDiretor();

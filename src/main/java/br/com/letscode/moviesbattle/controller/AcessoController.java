@@ -1,6 +1,7 @@
 package br.com.letscode.moviesbattle.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,4 +20,8 @@ public class AcessoController {
 		return "inicio";
 	}
 	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public String onError( ) {
+		return "redirect:/inicio";
+	}
 }

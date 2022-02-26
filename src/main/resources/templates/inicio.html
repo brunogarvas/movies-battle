@@ -6,42 +6,60 @@
 	<title>A Batalha de Filmes</title>
 </head>
 
-<body>
+<body onload="onLoad()">
+
+	<script>
+		function onLoad() {
+			var app = new Vue(
+			{
+				el : '#filmes',
+				data : {
+					filmes : []
+				},
+				mounted () {
+					
+					axios
+				      .get('http://localhost:8080/api/filmes')
+				      .then(response => (this.filmes = response.data.content))
+				      console.log(response.data)
+				}
+			});
+		}
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 	<div th:replace="~{modelo :: logo}"></div>	
 	
-	<div class="container">
+	<div class="container-fluid" id="filmes">
 	
-		<div th:replace="~{modelo :: titulo('Filmes Catalogados')}"></div>	
+		<div th:replace="~{modelo :: titulo('Catálogo do Jogo')}"></div>	
 		
-        <div class="card mb-3" th:each="pedido : ${pedidos}">
+        <div class="card mb-3" v-for="filme in filmes">
             
-            <th:block th:switch="${pedido.status.name()}">
-            	<div th:case="'PENDENTE'" class="card-header alert-warning" th:text="${pedido.nomeProduto}">Nome do Produto</div>
-            	<div th:case="'APROVADO'" class="card-header alert-success" th:text="${pedido.nomeProduto}">Nome do Produto</div>
-            	<div th:case="'ENTREGUE'" class="card-header alert-dark" th:text="${pedido.nomeProduto}">Nome do Produto</div>
-            </th:block>
+            <div class="card-header alert-warning"><a v-bind:href="filme.urlIMDB" target="_blank">{{filme.titulo}}</a></div>
+            <div class="card-header alert-dark">{{filme.ano}} - {{filme.duracao}} minutos - {{filme.genero}}</div>
             
             <div class="card-body">
             	<div class="row">
                 	<div class="col-12 col-sm-8 mb-3">
-                       <div class="col-md-5">
-                       	Valor: <span th:if="${pedido.valorNegociado} != null" th:text="${'R$ ' + #numbers.formatDecimal(pedido.valorNegociado, 2, 'POINT', 2, 'COMMA')}">200,99</span>
-                       </div>
-                       <div class="col-md-6">Data da entrega: 
-                   			<span th:text="${#temporals.format(pedido.dataEntrega, 'dd/MM/yyyy')}">10/02/2020</span>
-                   		</div>
-						<div>Produto</div> 
-						<div> <input class="form-control" th:value="${pedido.urlProduto}" value="url do produto" /></div>
-						 
-						<div>Descrição</div>
+                       <div>Sinopse:</div>
 						<div>
-							<textarea class="form-control" th:text="${pedido.descricao}">descrição do pedido</textarea>
+							<span class="form-control">{{filme.sinopse}}</span>
 						</div>
-						</div>
-						<div class="col-12 col-sm-4">
-							<div>
-								<img class="img-thumbnail" th:src="${pedido.urlImagem}" src="" />
-							</div>
+						
+						<div>Elenco:</div>
+						<div>
+							<span class="form-control">{{filme.elenco}}</span>
+						</div> 
+						<div>Diretor:</div>
+						<div>
+							<span class="form-control">{{filme.diretor}}</span>
+						</div> 
+					</div>
+					<div class="col-12 col-sm-3">
+						<div>
+							<img class="img-thumbnail" v-bind:src="filme.urlPoster" />
 						</div>
 					</div>
 				</div>
