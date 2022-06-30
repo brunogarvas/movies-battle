@@ -1,4 +1,4 @@
-# Projeto Batalha de Filmes para Let's Code
+# Projeto Batalha de Filmes
 
 API REST para uma aplicação ao estilo card game, onde serão informados dois filmes e o jogador deve acertar aquele que possui melhor avaliação no IMDB. Projeto incompleto, faltando dinamica das partidas, ranking e paginas.
 
